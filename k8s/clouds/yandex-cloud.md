@@ -1,4 +1,4 @@
-###Установка yandex cli
+###Установка yandex cli  
 `curl https://storage.yandexcloud.net/yandexcloud-yc/install.sh | bash`
 
 Выход из консоли
@@ -49,6 +49,8 @@ yc iam service-account create --name rebrain
 yc resource-manager folder add-access-binding b1gtca688p1cbjjh88fr --role=viewer --service-account-name=rebrain
 yc iam key create --service-account-name rebrain --output key.json
 ```
+
+``yc container cluster get-credentials kuber-cluster --external``
 
 
 
