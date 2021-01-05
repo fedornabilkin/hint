@@ -108,5 +108,49 @@ yc vpc subnet list
 ```
 kubectl create namespace test
 kubectl apply -f deployment.yaml
+```
 
+```
+kubectl get pod $pod -o yaml
+kubectl annotate pod $pod mypod="super"
+```
+```
+kubectl taint node cl1s8cp7jdh3nbc4fsj2-yhec dedicated=true:NoSchedule
+```
+
+#### Configmap and secret
+```
+kubectl create configmap my-config --from-literal=key1=value1 --from-literal=key2=value2
+kubectl create configmap game-config --from-file=myconfig
+kubectl get configmaps my-config -o yaml
+
+kubectl create configmap my-config \
+    --from-file=foo.json \
+    --from-file=bar=foobar.conf \
+    --from-file=config-opts/ \
+    --from-literal=some=thing
+
+kubectl create secret generic my-password --from-literal=password=mysqlpassword
+kubectl create secret generic nginx-env --from-literal=AUTH=testpassword
+kubectl get secret my-password
+kubectl get secret my-password -o yaml
+```
+
+```
+kubectl create secret generic regcred --from-file=.dockerconfigjson=<path/to/.docker/config.json> --type=kubernetes.io/dockerconfigjson
+kubectl create secret docker-registry regcred --docker-server=<your-registry-server> --docker-username=<your-name> --docker-password=<your-pword> --docker-email=<your-email>
+```
+
+```
+kubectl get sc // storageClass
+kubectl get pv
+kubectl get pvc
+kubectl get sts
+```
+
+```
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v0.41.2/deploy/static/provider/cloud/deploy.yaml
+kubectl -n ingress-nginx get deploy
+kubectl -n ingress-nginx get svc
+curl -D - -s -o /dev/null -H 'Host: blue.example.com' http://84.201.133.236/
 ```

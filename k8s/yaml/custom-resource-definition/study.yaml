@@ -1,0 +1,7 @@
+apiVersion: study.rebrainme.com/v1
+kind: Results
+metadata:
+  name: results
+spec:
+  task: Simple Task
+  result: "5"

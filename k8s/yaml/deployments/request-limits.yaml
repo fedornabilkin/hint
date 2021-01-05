@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cache-dp
+spec:
+  replicas: 2
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 0
+      maxSurge: 1
+  selector:
+    matchLabels:
+      app: httpd
+  template:
+    metadata:
+      labels:
+        app: httpd
+    spec:
+      containers:
+        - name: memcached
+          image: memcached
+          resources:
+            requests:
+              cpu: "200m"
+              memory: "512Mi"
+            limits:
+              cpu: "200m"
+              memory: "512Mi"
+        - name: redis
+          image: redis
+          resources:
+            requests:
+              cpu: "200m"
+              memory: "512Mi"
+            limits:
+              cpu: "200m"
+              memory: "512Mi"
+
+ # Создайте deployment `cache-dp` с двумя контейнерами `memcached`, `redis`.
+ # Установите requests / limits таким образом, чтобы QoS для этих подов был Guaranteed.
+ # Ограничьте использование ресурсов в namespace `default` максимально 4 ядрами CPU и 16 Gib памяти.

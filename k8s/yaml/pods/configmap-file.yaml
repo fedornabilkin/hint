@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: example
+spec:
+  containers:
+    - name: test
+      image: nginx:stable
+      volumeMounts:
+        - mountPath: /etc/nginx/sites-enabled/config.conf
+          name: site-config
+          subPath: config.conf
+  volumes:
+    - name: site-config
+      configMap:
+        name: test-config

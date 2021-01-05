@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx
+spec:
+  containers:
+    - name: nginx
+      image: nginx:stable
+      env:
+      - name: AUTH
+        valueFrom:
+          secretKeyRef:
+            name: nginx-env
+            key: AUTH
+      volumeMounts:
+        - mountPath: /etc/nginx/nginx.conf
+          name: nginx-config
+          subPath: nginx.conf
+  volumes:
+    - name: nginx-config
+      configMap:
+        name: nginx-conf
+
+ # Создайте configmap `nginx-conf` в namespace `default`, содержащую конфигурацию для nginx — nginx.conf, в которой указано количество воркеров — 4 штуки.
+ # Создайте secret `nginx-env` в namespace `default` с переменной `AUTH=testpassword`..
+ # Создайте под `nginx` в namespace `default`, который будет монтировать конфигурацию из configmap и добавлять env переменную из secret.

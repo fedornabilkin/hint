@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: kafka-sts
+spec:
+  serviceName: kafka-ss
+  replicas: 3
+  selector:
+    matchLabels:
+      app: kafka
+  template:
+    metadata:
+      labels:
+        app: kafka
+    spec:
+      containers:
+        - name: kafka
+          image: wurstmeister/kafka
+          command: [ "/bin/bash" ]
+          args: [ "-c", "while true; do sleep 300; done" ]
+          ports:
+            - name: http
+              containerPort: 8080
+          volumeMounts:
+            - name: kafka-pvc
+              mountPath: /var/data
+  volumeClaimTemplates:
+    - metadata:
+        name: kafka-pvc
+      spec:
+        storageClassName: yc-network-hdd
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 1Gi
+
+# Создайте statefulset с именем `kafka-sts` в namespace `default`, который будет запускать 3 пода kafka и создавать для них отдельные pvc `kafka-pvc` на 1 Гб каждый.

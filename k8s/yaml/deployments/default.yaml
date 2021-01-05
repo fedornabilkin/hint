@@ -1,8 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: web-dp
-  namespace: dev
+  name: nginx-dp
 spec:
   replicas: 4
   strategy:
