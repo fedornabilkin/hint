@@ -29,7 +29,17 @@ https://registry.terraform.io/providers/yandex-cloud/yandex/latest/docs/resource
 Список кластеров  
 `yc container cluster list`
 
+Токен  
+`yc k8s create-token --profile=default`
+
+Описание API  
+`kubectl api-resources`  
+`kubectl api-versions`
+
 Устаналиваем конфиг для kubectl, чтобы работать с кластером  
 `yc container cluster get-credentials kuber-cluster --external`  
 `kubectl cluster-info`
+
+Запрос на апи кластера  
+`curl -D - -s -k -H 'Authorization: Bearer t1.9euelZrMjs-NmMidjsjIis6RkpjLx-3rnpWajc2Um8malJbOkozHypCekJzl8_d7MmEB-u83YCFo_N3z9zthXgH67zdgIWj8.uKcpweH146V-fQLbs_R2tEk7psOgxWhLy4Z1DfI-d39KuRvDoUlS99fofi2enKPJDm-MQKxLT5vpPMCOIFvCCg' https://84.201.133.155/api/`
 

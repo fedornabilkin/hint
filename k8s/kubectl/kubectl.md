@@ -57,6 +57,21 @@ kubectl label pod nginx test=true
 kubectl get pod nginx -o go-template --template='{{ range $key, $value := .metadata.labels }}{{ printf " %s = %s\n" $key $value }}{{ end }}'
 ```
 
+Команда, чтобы под не делал рестарт
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: ubuntu
+spec:
+  containers:
+  - name: ubuntu
+    image: ubuntu:latest
+    # Just spin & wait forever
+    command: [ "/bin/bash", "-c", "--" ]
+    args: [ "while true; do sleep 30; done;" ]
+```
+
 ```bash
 kubectl exec nginx -- id
 kubectl exec -it nginx -- sh
@@ -64,4 +79,34 @@ kubectl logs nginx
 kubectl delete pod nginx
 ```
 
-команды cordon, drain и uncordon
+команды cordon, drain и uncordon для запрещения размещения подов на ноде и переноса подов на другие ноды.  
+```
+kubectl cordon cl128p75cket5bspv91v-oles
+kubectl drain cl128p75cket5bspv91v-oles --ignore-daemonsets
+kubectl uncordon cl128p75cket5bspv91v-oles
+
+kubectl get podmetrics
+kubectl get nodemetrics
+kubectl get podmetrics nginx -o yaml
+
+kubectl top pods --all-namespaces
+kubectl top nodes
+```
+
+```
+yc container cluster list
+cat ~/.kube/config
+yc k8s create-token --profile=default
+curl -D - -s -k -H 'Authorization: Bearer t1.8euelZqZl8rJxszLiZDNk6fNkZGdze3rnpWaxsmSnI_Ijc6MjMrNzJbMmpbl8_cNAzIA-u8nQkRU_d3z900xLwD67ydCRFT9.QYGp8iCLwNStqqCZhYzbjD9kG0AkMNocQ6tl8UbeoQoRMVwJNiSVOzNPoeG7wA6uDfy98f5Q2-csEFfc9vPRBA' https://84.201.159.209/api/v1/pods | jq .
+curl -s -k -H 'Authorization: Bearer t1.8euelZqZl8rJxszLiZDNk6fNkZGdze3rnpWaxsmSnI_Ijc6MjMrNzJbMmpbl8_cNAzIA-u8nQkRU_d3z900xLwD67ydCRFT9.QYGp8iCLwNStqqCZhYzbjD9kG0AkMNocQ6tl8UbeoQoRMVwJNiSVOzNPoeG7wA6uDfy98f5Q2-csEFfc9vPRBA' https://84.201.159.209/api/v1/namespaces/default/pods/nginx-pod | jq .
+```
+
+```
+yc vpc subnet list
+```
+
+```
+kubectl create namespace test
+kubectl apply -f deployment.yaml
+
+```
