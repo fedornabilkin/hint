@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: po-from-sa-dp-dev
+  namespace: dev
+spec:
+  serviceAccountName: sa-dp
+  containers:
+    - image: nginx
+      name: nginx-sa-test

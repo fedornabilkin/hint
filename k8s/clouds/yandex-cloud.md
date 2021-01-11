@@ -52,7 +52,7 @@ yc iam key create --service-account-name rebrain --output key.json
 
 `yc resource-manager folder add-access-binding FOLDER_ID --role=k8s.admin --service-account-name=rebrain`
 
-``yc container cluster get-credentials kuber-cluster --external``
+`yc container cluster get-credentials kuber-cluster --external`
 
 
 

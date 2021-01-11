@@ -1,0 +1,12 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: cr-dp
+rules:
+  - apiGroups: [""]
+    resources: ["deployments"]
+    verbs: [""]
+
+# Создайте сервисный аккаунт `sa-dp` в namespace `default`.
+# Создайте кластерную роль `cr-dp`, которая будет позволять создавать deployments.
+# Привяжите аккаунт `sa-dp` к роли cr-dp в namespace `default`, используя rolebinding `sa-dp-cr-dp`.

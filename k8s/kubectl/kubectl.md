@@ -34,21 +34,57 @@ sudo apt-get install -y kubectl
 `rolling-update` — выполняет обновление, клиентом будет kubectl на хосте.
 
 ```
-kubectl get namespaces
 kubectl get nodes -o wide
 kubectl get node cl128p75cket5bspv91v-oles -o  yaml
+
+kubectl get nodes
+kubectl get namespaces
+kubectl get deploy
+kubectl get po
+kubectl get svc // services
+kubectl get sa // service account
+kubectl get hpa // horizontal pod autoscaler
+
+kubectl get podmetrics
+kubectl get nodemetrics
+
+kubectl get configmaps
+kubectl get secret
+
+kubectl get sc // storageClass
+kubectl get pv
+kubectl get pvc
+kubectl get sts
+kubectl get crd
+
+kubectl get networkpolicy
+kubectl get resourcequota
+
+kubectl get role
+kubectl get rolebinding
+kubectl get clusterrole
+kubectl get clusterrolebinding
 ```
+
+Create service account  
+`kubectl create sa saname`
 
 Также kubectl поддерживает формат шаблонов [golang templates](https://golang.org/pkg/text/template/#pkg-overview).
 
 Все labels у каждой ноды в кластере:  
-`kubectl get nodes -o go-template --template='{{ range .items }}{{ printf "%s\n" .metadata.name }}{{ range $key, $value := .metadata.labels }}{{ printf "  %s = %s\n" $key $value }}{{ end }}{{ end }}'`
+```
+kubectl get nodes -o go-template --template='{{ range .items }}{{ printf "%s\n" .metadata.name }}{{ range $key, $value := .metadata.labels }}{{ printf "  %s = %s\n" $key $value }}{{ end }}{{ end }}'
+```
 
 Посмотреть образы контейнеров, запущенных в кластере:  
-`kubectl get pods -n test -o go-template --template='{{range .items}}{{range .spec.containers}}{{printf "%s\n" .image}}{{end}}{{end}}'`
+```
+kubectl get pods -n test -o go-template --template='{{range .items}}{{range .spec.containers}}{{printf "%s\n" .image}}{{end}}{{end}}'
+```
 
 Вывести для pod аннотации app.kubernetes.io/instance, у которых количество рестартов первого контейнера более 100.  
-`kubectl get pods --all-namespaces -o go-template --template='{{range .items}}{{if gt (index .status.containerStatuses 0).restartCount 100.0}}{{ printf "%s\n" (index .metadata.labels "app.kubernetes.io/instance")}}{{end}}{{end}}'`
+```
+kubectl get pods --all-namespaces -o go-template --template='{{range .items}}{{if gt (index .status.containerStatuses 0).restartCount 100.0}}{{ printf "%s\n" (index .metadata.labels "app.kubernetes.io/instance")}}{{end}}{{end}}'
+```
 
 ```bash
 kubectl run nginx --image nginx
@@ -142,15 +178,28 @@ kubectl create secret docker-registry regcred --docker-server=<your-registry-ser
 ```
 
 ```
-kubectl get sc // storageClass
-kubectl get pv
-kubectl get pvc
-kubectl get sts
-```
-
-```
 kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v0.41.2/deploy/static/provider/cloud/deploy.yaml
 kubectl -n ingress-nginx get deploy
 kubectl -n ingress-nginx get svc
 curl -D - -s -o /dev/null -H 'Host: blue.example.com' http://84.201.133.236/
+```
+
+`htpasswd -c auth username`
+
+New password:  
+Re-type new password:  
+Adding password for user username
+
+`kubectl create secret generic basic-auth --from-file=auth`
+
+secret/basic-auth created
+
+`kubectl get secret basic-auth -o yaml`
+
+apiVersion: v1  
+data:  
+  auth: dm96ZXJvdjokYXByMSRUb2VWRy9TLyRlM2dkUzZDdFFKWTltMk9lNzFqWXcwCg==
+
+```
+kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.1.0/cert-manager.yaml
 ```

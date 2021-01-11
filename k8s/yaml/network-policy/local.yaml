@@ -1,0 +1,20 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: local-http
+  namespace: default
+spec:
+  podSelector: {}
+  policyTypes:
+    - Ingress
+    - Egress
+  ingress:
+    - from:
+        - namespaceSelector:
+            matchExpressions:
+              - { key: name, operator: In, values: [ default ] }
+      ports:
+        - protocol: TCP
+          port: 8080
+
+# Создайте Network Policy `local-http` в namespace `default`, которая будет разрешать подам namespace `default` обращаться к нодам из этого же namespace по порту 8080.

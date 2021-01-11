@@ -1,13 +1,17 @@
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: web-ingress
+  name: nginx-ingress
   namespace: default
 spec:
   rules:
-    - host: blue.example.com
+    - host: test.ingress.rebrainme.com
       http:
         paths:
           - backend:
-              serviceName: nginx-svc
+              serviceName: svc-internal
               servicePort: 80
+
+  # Создайте deployment с nginx `nginx-dp` в namespace `default`.
+  # Создайте сервис для `nginx-dp` с именем `svc-internal` в namespace `default` с типом ClusterIP.
+  # Создайте ingress `nginx-ingress` в namespace `default` для доменного имени `test.ingress.rebrainme.com`.

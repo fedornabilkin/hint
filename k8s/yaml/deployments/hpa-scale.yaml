@@ -20,3 +20,5 @@ spec:
       containers:
         - name: nginx
           image: nginx
+          command: [ "/bin/bash" ]
+          args: [ "-c", "dd if=/dev/zero of=/dev/null" ]
