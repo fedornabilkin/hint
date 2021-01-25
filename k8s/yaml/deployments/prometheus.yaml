@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: whoami-dp
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 0
+      maxSurge: 1
+  selector:
+    matchLabels:
+      app: whoami
+  template:
+    metadata:
+      labels:
+        app: whoami
+    spec:
+      containers:
+        - name: whoami
+          image: nginx
+
+# Создайте дейплоймент `whoami-dp` в namespace `default`, который внутри будет запускать контейнер whoami.
+# Создайте podmonitor `whoami-monitor` в namespace `default`, который будет собирать метрики с подов whoami.
+# Установите prometheus-adapter в namespace `monitoring`
+# Создайте HorizontalPodAutoScaler `hpa-whoami` в namespace `default`, который будет увеличивать количество реплик
+# данного деплоймента при достижении http_requests более 1ого запроса в секунду.

@@ -1,7 +1,7 @@
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: back
+  name: my-own-ingress
   namespace: default
   annotations:
     nginx.ingress.kubernetes.io/enable-cors: "true"
@@ -9,18 +9,18 @@ metadata:
     nginx.ingress.kubernetes.io/auth-secret: "basic-auth"
     nginx.ingress.kubernetes.io/auth-secret-type: "auth-file"
     # Указываем, каким образом выписывать сертификат
-    cert-manager.io/cluster-issuer: "letsencrypt"
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
 spec:
   rules:
-    - host: back.dev.kis.im
+    - host: fedornabilkin.tk
       http:
         paths:
           - path: /
             backend:
-              serviceName: nginx-back
+              serviceName: nginx-svc-ext
               servicePort: 80
   # Указываем настройки для tls — для какого хоста нужен tls и куда сохранить полученный сертификат
   tls:
     - hosts:
-        - back.dev.kis.im
-      secretName: back-dev-kis-im-cert
+        - fedornabilkin.tk
+      secretName: fedornabilkin-tk-cert

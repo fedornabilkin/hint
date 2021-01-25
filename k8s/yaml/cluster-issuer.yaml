@@ -1,14 +1,20 @@
 apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
 metadata:
-  name: letsencrypt
+  name: letsencrypt-prod
 spec:
   acme:
-    email: ov@fevlake.com
+    email: fedornabilkin@yandex.ru
     privateKeySecretRef:
       name: letsencrypt-private-key
     server: https://acme-v02.api.letsencrypt.org/directory
     solvers:
     - http01:
        ingress:
-         class: nginx
+         class: my-own-ingress
+
+  # Установите cert-manager в ваш кластер в namespace `cert-manager`
+  # Создайте cluster issuer `letsencrypt-prod`, который будет получать сертификаты через letsencrypt
+  # Создайте ingress `my-own-ingress` в namespace `default` для любого вашего домена, в котором вы сможете управлять DNS записями.
+  # Получите сертификат для этого домена, используя cluster issuer `letsencrypt-prod`
+  # Отправьте задание на проверку.
